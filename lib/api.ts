@@ -11,7 +11,7 @@ if (!TOKEN) {
 const notesClient = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Authorization: `Bearer ${TOKEN}`,
+    Authorization: `Bearer ${TOKEN?.trim()}`,
   },
 });
 
