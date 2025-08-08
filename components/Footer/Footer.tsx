@@ -1,5 +1,4 @@
 import styles from './Footer.module.css';
-import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -9,8 +8,10 @@ const Footer = () => {
         <div className={styles.wrap}>
           <p>Developer: Oksana Sydorenko</p>
           <p>
-            Contact us:
-            <Link href="<mailto:student@notehub.app>"></Link>
+            Contact us:{' '}
+            <a href="mailto:student@notehub.app" className={styles.link}>
+              student@notehub.app
+            </a>
           </p>
         </div>
       </div>

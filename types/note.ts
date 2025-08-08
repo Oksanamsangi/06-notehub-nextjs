@@ -1,5 +1,5 @@
 export interface Note {
-  id: number;
+  id: string;
   title: string;
   content: string;
   createdAt: string;
@@ -7,10 +7,8 @@ export interface Note {
   tag: string;
 }
 
-export interface NewNoteData {
+export interface NoteFormData {
   title: string;
   content: string;
   tag: string;
 }
-
-
