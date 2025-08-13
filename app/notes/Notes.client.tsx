@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { fetchNotes } from "@/lib/api";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useDebounce } from "use-debounce";
+import { useState } from 'react';
+import { fetchNotes } from '@/lib/api';
+import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from 'use-debounce';
 
-import NoteList from "@/components/NoteList/NoteList";
-import NoteModal from "@/components/Modal/Modal";
-import SearchBox from "@/components/SearchBox/SearchBox";
-import Pagination from "@/components/Pagination/Pagination";
-import type { NotesResponse } from "@/types/api";
-import css from "./NotesPage.module.css";
-
+import NoteList from '@/components/NoteList/NoteList';
+import Modal from '@/components/Modal/Modal';
+import NoteForm from '@/components/NoteForm/NoteForm';
+import SearchBox from '@/components/SearchBox/SearchBox';
+import Pagination from '@/components/Pagination/Pagination';
+import type { NotesResponse } from '@/types/api';
+import css from './NotesPage.module.css';
 
 type NotesClientProps = {
   initialPage: number;
@@ -27,15 +27,15 @@ export default function NotesClient({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [debounceSearchTerm] = useDebounce(searchTerm, 1000);
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 1000);
   const perPage = 12;
 
   const { data } = useQuery<NotesResponse>({
-    queryKey: ["notes", debounceSearchTerm, currentPage],
-    queryFn: () => fetchNotes(currentPage, debounceSearchTerm, perPage),
-    placeholderData: keepPreviousData,
+    queryKey: ['notes', debouncedSearchTerm, currentPage],
+    queryFn: () => fetchNotes(currentPage, debouncedSearchTerm, perPage),
+    placeholderData: prev => prev,
     initialData:
-      currentPage === initialPage && debounceSearchTerm === initialSearch
+      currentPage === initialPage && debouncedSearchTerm === initialSearch
         ? initialData
         : undefined,
   });
@@ -65,9 +65,10 @@ export default function NotesClient({
       </header>
       {data && <NoteList notes={data.notes} />}
       {isModalOpen && (
-        <NoteModal onClose={closeModal} onSuccess={closeModal} />
+        <Modal onClose={closeModal}>
+          <NoteForm onClose={closeModal} />
+        </Modal>
       )}
     </div>
   );
 }
-
