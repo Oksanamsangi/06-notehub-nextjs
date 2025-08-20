@@ -94,6 +94,7 @@ export default function NoteForm({onClose}: NoteFormProps) {
             name="content"
             component="span"
             className={styles.error}
+            lalal
           />
         </div>
 
